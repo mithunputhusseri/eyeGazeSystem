@@ -6,6 +6,8 @@ import {
   // FACEMESH_TESSELATION,
   FACEMESH_RIGHT_IRIS,
   FACEMESH_LEFT_IRIS,
+  FACEMESH_LEFT_EYE,
+  FACEMESH_RIGHT_EYE
   // FACEMESH_FACE_OVAL,
 } from "@mediapipe/face_mesh";
 import { Camera } from "@mediapipe/camera_utils";
@@ -131,72 +133,13 @@ const WebcamImg = () => {
         canvasCtx.fillStyle = "#4379b8";
         // Left
         canvasCtx.fillRect(
-          results.multiFaceLandmarks[0][FACEMESH_LEFT_IRIS[2][0]].x * width - 2,
-          results.multiFaceLandmarks[0][FACEMESH_LEFT_IRIS[2][0]].y * height -
-            2,
-          4,
-          4
-        );
-        canvasCtx.fillRect(
-          results.multiFaceLandmarks[0][FACEMESH_LEFT_IRIS[0][0]].x * width - 2,
-          results.multiFaceLandmarks[0][FACEMESH_LEFT_IRIS[0][0]].y * height -
-            2,
-          4,
-          4
-        );
-        canvasCtx.fillRect(
-          results.multiFaceLandmarks[0][FACEMESH_LEFT_IRIS[1][0]].x * width - 2,
-          results.multiFaceLandmarks[0][FACEMESH_LEFT_IRIS[1][0]].y * height -
-            2,
-          4,
-          4
-        );
-        canvasCtx.fillRect(
-          results.multiFaceLandmarks[0][FACEMESH_LEFT_IRIS[3][0]].x * width - 2,
-          results.multiFaceLandmarks[0][FACEMESH_LEFT_IRIS[3][0]].y * height -
-            2,
-          4,
-          4
-        );
-        canvasCtx.fillRect(
           pupils.left.x * width - 2,
           pupils.left.y * height - 2,
           4,
           4
         );
         // Right
-        canvasCtx.fillRect(
-          results.multiFaceLandmarks[0][FACEMESH_RIGHT_IRIS[2][0]].x * width -
-            2,
-          results.multiFaceLandmarks[0][FACEMESH_RIGHT_IRIS[2][0]].y * height -
-            2,
-          4,
-          4
-        );
-        canvasCtx.fillRect(
-          results.multiFaceLandmarks[0][FACEMESH_RIGHT_IRIS[0][0]].x * width -
-            2,
-          results.multiFaceLandmarks[0][FACEMESH_RIGHT_IRIS[0][0]].y * height -
-            2,
-          4,
-          4
-        );
-        canvasCtx.fillRect(
-          results.multiFaceLandmarks[0][FACEMESH_RIGHT_IRIS[1][0]].x * width -
-            2,
-          results.multiFaceLandmarks[0][FACEMESH_RIGHT_IRIS[1][0]].y * height -
-            2,
-          4,
-          4
-        );
-        canvasCtx.fillRect(
-          results.multiFaceLandmarks[0][FACEMESH_RIGHT_IRIS[3][0]].x * width -
-            2,
-          results.multiFaceLandmarks[0][FACEMESH_RIGHT_IRIS[3][0]].y * height -
-            2,
-          4,
-          4
-        );
+
         canvasCtx.fillRect(
           pupils.right.x * width - 2,
           pupils.right.y * height - 2,
@@ -204,24 +147,35 @@ const WebcamImg = () => {
           4
         );
 
-        // Drawing Face Mesh landmarks of iris on canvas (and face oval and tessellation if you want)
-        for (const landmarks of results.multiFaceLandmarks) {
-          // drawConnectors(canvasCtx, landmarks, FACEMESH_TESSELATION, {
-          //   color: "#C0C0C070",
-          //   lineWidth: 1,
-          // });
-          drawConnectors(canvasCtx, landmarks, FACEMESH_RIGHT_IRIS, {
-            color: "#FF3030",
-            lineWidth: 1,
-          });
-          drawConnectors(canvasCtx, landmarks, FACEMESH_LEFT_IRIS, {
-            color: "#FF3030",
-            lineWidth: 1,
-          });
-          // drawConnectors(canvasCtx, landmarks, FACEMESH_FACE_OVAL, {
-          //   color: "#E0E0E0",
-          // });
-        }
+        canvasCtx.fillRect(
+          results.multiFaceLandmarks[0][FACEMESH_LEFT_EYE[0][0]].x * width - 2,
+          results.multiFaceLandmarks[0][FACEMESH_LEFT_EYE[0][0]].y * height -2,
+          4,
+          4
+        );
+
+        canvasCtx.fillRect(
+          results.multiFaceLandmarks[0][FACEMESH_RIGHT_EYE[0][0]].x * width - 2,
+          results.multiFaceLandmarks[0][FACEMESH_RIGHT_EYE[0][0]].y * height -2,
+          4,
+          4
+        );
+
+
+        canvasCtx.fillRect(
+          results.multiFaceLandmarks[0][FACEMESH_LEFT_EYE[7][0]].x * width - 2,
+          results.multiFaceLandmarks[0][FACEMESH_LEFT_EYE[7][0]].y * height -2,
+          4,
+          4
+        );
+
+        canvasCtx.fillRect(
+          results.multiFaceLandmarks[0][FACEMESH_RIGHT_EYE[7][0]].x * width - 2,
+          results.multiFaceLandmarks[0][FACEMESH_RIGHT_EYE[7][0]].y * height -2,
+          4,
+          4
+        );
+
       }
       canvasCtx.restore();
     };
@@ -305,51 +259,7 @@ const WebcamImg = () => {
   return (
     <Fragment>
       <div className="container-app">
-        <div className="container-card" id="card-1">
-          <picture>
-            <source
-              srcSet={process.env.PUBLIC_URL + "/images/eye-scanner-64.png"}
-              media="(max-width: 390px)"
-            />
-            <source
-              srcSet={process.env.PUBLIC_URL + "/images/eye-scanner-96.png"}
-              media="(max-width: 670px)"
-            />
-            <img
-              src={process.env.PUBLIC_URL + "/images/eye-scanner-128.png"}
-              alt="eye scanner"
-            />
-          </picture>
-          <p>
-            You can measure your PD here with this digital test, click the
-            button to read instruction.
-          </p>
-          <button
-            id="show-info-btn"
-            onClick={(ev) => {
-              showInfo();
-              ev.preventDefault();
-            }}
-          >
-            Instruction
-          </button>
-        </div>
-        <div className="container-card" id="card-2" style={{ display: "none" }}>
-          <div className="container-info">
-            <h2 className="info-title">Instruction</h2>
-            <Info />
-          </div>
-          <button
-            id="open-app-btn"
-            onClick={(ev) => {
-              openApp();
-              ev.preventDefault();
-            }}
-          >
-            Measure PD
-          </button>
-        </div>
-        <div className="container-display" style={{ display: "none" }}>
+        <div className="container-display" >
           <div className="container-video">
             <Webcam
               ref={webcamRef}
